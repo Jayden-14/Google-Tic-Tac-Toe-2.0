@@ -19,4 +19,4 @@ A visually appealing Tic Tac Toe game built with Python and Pygame, inspired by 
 
    ```bash
    pip install pygame
-![Screenshot of gameplay] (screenshot.png)
+![Screenshot of gameplay] <img width="773" height="628" alt="Screenshot" src="https://github.com/user-attachments/assets/4e00b243-4e2a-410c-a1b5-e08ac95d9d91" />
