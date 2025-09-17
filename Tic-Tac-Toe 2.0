@@ -1,0 +1,50 @@
+def show_winner(player, win_squares):
+    """ Animate all winning squares combining to the center and display winner text """
+    center_x = WIDTH // 2
+    center_y = HEIGHT // 2
+    steps = 30
+    square_positions = []
+    for (row, col) in win_squares:
+        x = col * SQUARE_SIZE + SQUARE_SIZE // 2
+        y = row * SQUARE_SIZE + SQUARE_SIZE // 2
+        square_positions.append([x, y])
+
+    # Animate winning squares moving toward center
+    for i in range(1, steps + 1):
+        screen.fill(BG_COLOR)
+        draw_lines()
+        for pos in square_positions:
+            x = int(pos[0] + (center_x - pos[0]) * i / steps)
+            y = int(pos[1] + (center_y - pos[1]) * i / steps)
+            if player == 1:
+                pygame.draw.circle(screen, CIRCLE_COLOR, (x, y), CIRCLE_RADIUS, CIRCLE_WIDTH)
+            else:
+                pygame.draw.line(screen, CROSS_COLOR,
+                                 (x - CIRCLE_RADIUS, y - CIRCLE_RADIUS),
+                                 (x + CIRCLE_RADIUS, y + CIRCLE_RADIUS), CROSS_WIDTH)
+                pygame.draw.line(screen, CROSS_COLOR,
+                                 (x - CIRCLE_RADIUS, y + CIRCLE_RADIUS),
+                                 (x + CIRCLE_RADIUS, y - CIRCLE_RADIUS), CROSS_WIDTH)
+        pygame.display.update()
+        pygame.time.delay(30)
+
+    # Draw proportional symbol in center (0.9× normal size)
+    symbol_size = int(CIRCLE_RADIUS * 0.9)
+    screen.fill(BG_COLOR)
+    draw_lines()
+    if player == 1:
+        pygame.draw.circle(screen, CIRCLE_COLOR, (center_x, center_y), symbol_size, CIRCLE_WIDTH)
+    else:
+        pygame.draw.line(screen, CROSS_COLOR,
+                         (center_x - symbol_size, center_y - symbol_size),
+                         (center_x + symbol_size, center_y + symbol_size), CROSS_WIDTH)
+        pygame.draw.line(screen, CROSS_COLOR,
+                         (center_x - symbol_size, center_y + symbol_size),
+                         (center_x + symbol_size, center_y - symbol_size), CROSS_WIDTH)
+
+    # Winner text below symbol (always X color)
+    font = pygame.font.SysFont(None, 60)
+    winner_text = font.render("WINNER", True, WINNER_COLOR)
+    text_rect = winner_text.get_rect(center=(center_x, center_y + 80))
+    screen.blit(winner_text, text_rect)
+    pygame.display.update()
